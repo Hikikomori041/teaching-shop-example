@@ -42,6 +42,7 @@ class CarrierViewSet(viewsets.ModelViewSet):
 
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
+router.register(r'carriers', CarrierViewSet)
 
 
 urlpatterns = [
