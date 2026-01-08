@@ -1,3 +1,5 @@
+// Feature: Shipping Carriers
+export const API_VERSION = "2.0-shipping";
 export interface Product {
   id: number;
   name: string;
