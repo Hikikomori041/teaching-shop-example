@@ -1,3 +1,6 @@
+// Feature: Customer Reviews
+export const API_VERSION = "2.0-reviews";
+
 export interface Product {
   id: number;
   name: string;
