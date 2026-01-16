@@ -42,3 +42,15 @@ jobs:
       # 6. Run tests
       - name: Run tests
         run: npm test -- --run --coverage
+
+      # 7. Build production
+      - name: Build production
+        run: npm run build
+
+      # 8. Upload coverage report
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-coverage-report
+          path: frontend/coverage/
