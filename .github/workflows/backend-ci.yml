@@ -25,6 +25,9 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "backend/pyproject.toml"
 
       - name: Install dependencies
         run: uv sync --extra dev
@@ -35,8 +38,22 @@ jobs:
       - name: Run linter
         run: uv run ruff check .
 
-      - name: Run tests
+      - name: Check for missing migrations
+        run: |
+          cd core
+          uv run python manage.py makemigrations --check --dry-run
+
+      - name: Run tests with coverage
         run: |
           cd core
           uv run python manage.py migrate
-          uv run python manage.py test
+          uv run coverage run --source='.' manage.py test
+          uv run coverage report
+          uv run coverage html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: backend/core/htmlcov/
