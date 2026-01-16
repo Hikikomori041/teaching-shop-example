@@ -9,3 +9,8 @@ dependencies = [
     "django-cors-headers>=4.8.0",
     "djangorestframework>=3.16.1",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.8.0",
+]
