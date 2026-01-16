@@ -32,7 +32,9 @@ export default function RegisterPage() {
       toast.success('Account created successfully!');
       navigate('/');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Registration failed');
+      toast.error(
+        error instanceof Error ? error.message : 'Registration failed'
+      );
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,7 @@ export default function RegisterPage() {
           type="text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
           position="first"
         />
         <FormField
@@ -60,7 +62,7 @@ export default function RegisterPage() {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           position="middle"
         />
         <FormField
@@ -68,7 +70,7 @@ export default function RegisterPage() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           position="middle"
         />
         <FormField
@@ -76,7 +78,7 @@ export default function RegisterPage() {
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={e => setConfirmPassword(e.target.value)}
           position="last"
         />
       </div>

@@ -12,7 +12,9 @@ export default function StatusBadge({ status }: Props) {
   const label = status.charAt(0).toUpperCase() + status.slice(1);
 
   return (
-    <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusStyles[status]}`}>
+    <span
+      className={`px-2 py-1 text-xs font-medium rounded-full ${statusStyles[status]}`}
+    >
       {label}
     </span>
   );

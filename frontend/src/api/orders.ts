@@ -27,7 +27,7 @@ export async function createOrder(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
     body: JSON.stringify({
       product_id: productId,
@@ -47,7 +47,7 @@ export async function createOrder(
 export async function getOrders(token: string): Promise<Order[]> {
   const response = await fetch(`${API_BASE}/orders/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
@@ -61,7 +61,7 @@ export async function getOrders(token: string): Promise<Order[]> {
 export async function getOrder(token: string, orderId: number): Promise<Order> {
   const response = await fetch(`${API_BASE}/orders/${orderId}/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
@@ -81,7 +81,7 @@ export interface AdminOrder extends Order {
 export async function getAdminOrders(token: string): Promise<AdminOrder[]> {
   const response = await fetch(`${API_BASE}/admin/orders/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 

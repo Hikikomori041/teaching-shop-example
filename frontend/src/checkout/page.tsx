@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   const { products } = useProducts();
   const [loading, setLoading] = useState(false);
 
-  const product = products.find((p) => p.id === Number(productId));
+  const product = products.find(p => p.id === Number(productId));
 
   if (!product) {
     return (
@@ -47,7 +47,11 @@ export default function CheckoutPage() {
         Checkout
       </h1>
       <ProductPreview product={product} />
-      <PaymentForm onSubmit={handlePayment} loading={loading} price={product.price} />
+      <PaymentForm
+        onSubmit={handlePayment}
+        loading={loading}
+        price={product.price}
+      />
     </PageContainer>
   );
 }

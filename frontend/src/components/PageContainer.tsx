@@ -18,9 +18,7 @@ const maxWidthClasses = {
 export default function PageContainer({ children, maxWidth = '2xl' }: Props) {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className={`${maxWidthClasses[maxWidth]} mx-auto`}>
-        {children}
-      </div>
+      <div className={`${maxWidthClasses[maxWidth]} mx-auto`}>{children}</div>
     </div>
   );
 }

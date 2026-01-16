@@ -18,7 +18,7 @@ export default function ProductsGrid() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-8 max-w-4xl mx-auto">
       <h2 className="sr-only">Produits</h2>
-      {products.map((product) => (
+      {products.map(product => (
         <div
           key={product.id}
           className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"

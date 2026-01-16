@@ -29,7 +29,12 @@ describe('AuthContext', () => {
       wrapper: AuthContextProvider,
     });
 
-    const mockUser = { id: 1, username: 'testuser', email: 'test@example.com', is_staff: false };
+    const mockUser = {
+      id: 1,
+      username: 'testuser',
+      email: 'test@example.com',
+      is_staff: false,
+    };
     const mockToken = 'test-token-123';
 
     act(() => {
@@ -48,7 +53,12 @@ describe('AuthContext', () => {
       wrapper: AuthContextProvider,
     });
 
-    const mockUser = { id: 1, username: 'testuser', email: 'test@example.com', is_staff: false };
+    const mockUser = {
+      id: 1,
+      username: 'testuser',
+      email: 'test@example.com',
+      is_staff: false,
+    };
     const mockToken = 'test-token-123';
 
     act(() => {
@@ -67,7 +77,12 @@ describe('AuthContext', () => {
   });
 
   it('should restore auth state localStorage', async () => {
-    const mockUser = { id: 1, username: 'testuser', email: 'test@example.com', is_staff: false };
+    const mockUser = {
+      id: 1,
+      username: 'testuser',
+      email: 'test@example.com',
+      is_staff: false,
+    };
     const mockToken = 'test-token-123';
     localStorage.setItem('token', mockToken);
 

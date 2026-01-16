@@ -44,7 +44,7 @@ export default function LoginPage() {
           type="text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
           position="first"
         />
         <FormField
@@ -52,12 +52,16 @@ export default function LoginPage() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           position="last"
         />
       </div>
       <div>
-        <SubmitButton loading={loading} loadingText="Signing in..." text="Sign in" />
+        <SubmitButton
+          loading={loading}
+          loadingText="Signing in..."
+          text="Sign in"
+        />
       </div>
     </AuthFormLayout>
   );

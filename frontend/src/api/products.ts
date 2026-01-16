@@ -14,7 +14,7 @@ interface RawProduct {
 }
 
 export async function fetchProducts(): Promise<Product[]> {
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
   // const response = [{
   //     id: 1,
   //     name: "Bavoir Hippopotame",
@@ -34,9 +34,9 @@ export async function fetchProducts(): Promise<Product[]> {
   //     description: "La savane illustre parfaitement la jungle créative de votre bébé !",
   //     imageUrl: "/bavoir3.jpg"
   // }];
-  const response = await fetch("http://localhost:8000/api/products/").then(
-    (res) =>
-      res.json().then((data) =>
+  const response = await fetch('http://localhost:8000/api/products/').then(
+    res =>
+      res.json().then(data =>
         data.map((p: RawProduct) => ({
           ...p,
           price: parseFloat(p.price),

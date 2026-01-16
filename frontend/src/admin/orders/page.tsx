@@ -54,7 +54,7 @@ export default function AdminOrdersPage() {
         <EmptyState message="No orders found." />
       ) : (
         <div className="space-y-4">
-          {orders.map((order) => (
+          {orders.map(order => (
             <AdminOrderCard key={order.id} order={order} />
           ))}
         </div>
