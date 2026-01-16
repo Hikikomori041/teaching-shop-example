@@ -11,7 +11,7 @@ export interface Order {
     created_at: string
 }
 
-interface CreateOrderResponse extends Order {}
+export type CreateOrderResponse = Order
 
 interface OrderError {
     error: string
