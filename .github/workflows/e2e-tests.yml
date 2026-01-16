@@ -54,7 +54,7 @@ jobs:
           cd frontend
           npm ci
           npm run build
-          npm run preview &
+          npm run preview -- --port 8080 &
 
       - name: Wait for frontend to be ready
         run: |
