@@ -1,0 +1,33 @@
+name: Backend Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync
+        
+      - name: Unit Tests
+        run: cd core && uv run python manage.py test api.tests.test_unit
+
+      # TODO: Add a step to run unit tests
+      # Command: cd core && uv run python manage.py test api.tests.test_unit
