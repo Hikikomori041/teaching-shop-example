@@ -1,0 +1,56 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js (version 20, with npm caching)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json' # fix d'une erreur "Dependencies lock file is not found in /home/runner/work/teaching-shop-example/teaching-shop-example. Supported file patterns: package-lock.json,npm-shrinkwrap.json,yarn.lock"
+          
+      # 3. Install dependencies (npm ci)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Check formatting
+      - name: Check formatting
+        run: npx prettier --check .
+      
+      # 5. Run linter
+      - name: Run linter
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+      
+      # 6. Run tests
+      - name: Run tests
+        run: npm test -- --run --coverage
+
+      # 7. Build production
+      - name: Build production
+        run: npm run build
+
+      # 8. Upload coverage report
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-coverage-report
+          path: frontend/coverage/
