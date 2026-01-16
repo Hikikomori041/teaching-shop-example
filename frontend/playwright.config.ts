@@ -25,7 +25,7 @@ export default defineConfig({
     // Shared settings for all tests
     use: {
         // Base URL for navigation
-        baseURL: 'http://localhost:8080',
+        baseURL: process.env.CI ? 'http://localhost:8080' : 'http://localhost:8080',
 
         // Capture screenshot on failure
         screenshot: 'only-on-failure',
