@@ -24,7 +24,7 @@ function formatRevenue(amount: number): string {
 }
 
 function calculateDailyRevenue(orders: AdminOrder[]): DailyRevenue[] {
-  const paidOrders = orders.filter((order) => order.status === 'paid');
+  const paidOrders = orders.filter(order => order.status === 'paid');
 
   const revenueByDay = paidOrders.reduce(
     (acc, order) => {
@@ -50,7 +50,7 @@ export default function DailyRevenueChart({ orders }: Props) {
   const dailyRevenue = useMemo(() => calculateDailyRevenue(orders), [orders]);
 
   const maxRevenue = useMemo(
-    () => Math.max(...dailyRevenue.map((d) => d.revenue), 1),
+    () => Math.max(...dailyRevenue.map(d => d.revenue), 1),
     [dailyRevenue]
   );
 
@@ -83,7 +83,7 @@ export default function DailyRevenueChart({ orders }: Props) {
       </div>
 
       <div className="flex items-end gap-1 sm:gap-2 h-48">
-        {dailyRevenue.map((day) => {
+        {dailyRevenue.map(day => {
           const heightPercent = (day.revenue / maxRevenue) * 100;
           return (
             <div

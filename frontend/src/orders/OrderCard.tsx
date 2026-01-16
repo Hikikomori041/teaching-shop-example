@@ -47,6 +47,8 @@ export default function OrderCard({ order, linkable = true }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">{content}</div>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      {content}
+    </div>
   );
 }

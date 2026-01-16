@@ -9,9 +9,14 @@ const sizeClasses = {
   lg: 'h-12 w-12',
 };
 
-export default function LoadingSpinner({ size = 'lg', fullScreen = true }: Props) {
+export default function LoadingSpinner({
+  size = 'lg',
+  fullScreen = true,
+}: Props) {
   const spinner = (
-    <div className={`animate-spin rounded-full border-b-2 border-primary ${sizeClasses[size]}`} />
+    <div
+      className={`animate-spin rounded-full border-b-2 border-primary ${sizeClasses[size]}`}
+    />
   );
 
   if (fullScreen) {

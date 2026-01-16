@@ -15,8 +15,8 @@ export default function HeroSection() {
         >
           <div className="flex items-center justify-center h-full">
             {(loading && <Spinner className="text-white" />) ||
-              (products.length && "Voir les produits") ||
-              "Aucun produit"}
+              (products.length && 'Voir les produits') ||
+              'Aucun produit'}
           </div>
         </a>
       </div>

@@ -3,9 +3,9 @@ import { Header, ProtectedLayout, AdminLayout } from './layouts';
 import HomePage from './home/page';
 import LoginPage from './auth/login/page';
 import RegisterPage from './auth/register/page';
-import CheckoutPage from'./checkout/page';
-import OrderConfirmationPage from'./orders/order/page';
-import MyOrdersPage from'./orders/page';
+import CheckoutPage from './checkout/page';
+import OrderConfirmationPage from './orders/order/page';
+import MyOrdersPage from './orders/page';
 import AdminOrdersPage from './admin/orders/page';
 
 export default function App() {

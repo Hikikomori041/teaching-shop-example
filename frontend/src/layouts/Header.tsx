@@ -16,10 +16,7 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <span className="text-gray-600">Hello, {user?.username}</span>
-                <Link
-                  to="/orders"
-                  className="text-gray-600 hover:text-primary"
-                >
+                <Link to="/orders" className="text-gray-600 hover:text-primary">
                   My Orders
                 </Link>
                 {user?.is_staff && (
@@ -39,10 +36,7 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="text-gray-600 hover:text-primary"
-                >
+                <Link to="/login" className="text-gray-600 hover:text-primary">
                   Login
                 </Link>
                 <Link
