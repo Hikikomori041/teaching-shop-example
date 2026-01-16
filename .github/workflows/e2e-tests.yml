@@ -22,6 +22,8 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
 
       # Set up Node.js and install frontend dependencies
       - name: Set up Node.js
