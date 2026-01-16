@@ -1,0 +1,78 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Set up Python and install backend dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
+
+      # Set up Node.js and install frontend dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      # Start backend server in background
+      # Hint: Use & at the end of the command to run in background
+      - name: Start backend server
+        run: |
+          cd backend
+          uv sync --extra dev
+          cd core
+          uv run python manage.py migrate
+          uv run python manage.py seed_products
+          uv run python manage.py runserver &
+
+      - name: Wait for backend to be ready
+        run: |
+          timeout 30 bash -c 'until curl -s http://localhost:8000/api/products/ > /dev/null; do sleep 1; done'
+          echo "Backend is ready!"
+
+      # Build and serve frontend
+      # Commands: npm run build && npm run preview &
+      - name: Build and serve frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+          npm run preview -- --port 8080 &
+
+      - name: Wait for frontend to be ready
+        run: |
+          timeout 30 bash -c 'until curl -s http://localhost:8080 > /dev/null; do sleep 1; done'
+          echo "Frontend is ready!"
+
+      # Install Playwright browsers
+      # Command: npx playwright install chromium
+      - name: Install Playwright browsers
+        run: |
+          cd frontend
+          npx playwright install chromium
+
+      # Run E2E tests
+      # Command: npx playwright test
+      - name: Run E2E tests
+        run: |
+          cd frontend
+          npx playwright test
