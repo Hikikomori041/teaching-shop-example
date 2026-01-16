@@ -29,6 +29,9 @@ jobs:
       # Step to run unit tests
       # Command: cd core && uv run python manage.py test api.tests.test_unit
       - name: Run unit tests
-        run: |
-          cd core
-          uv run python manage.py test api.tests.test_unit
+        run: cd core && uv run python manage.py test api.tests.test_unit
+
+      # Step to run integration tests
+      # Similar to unit tests but with test_integration
+      - name: Run integration tests
+        run: cd core && uv run python manage.py test api.tests.test_integration
