@@ -135,18 +135,27 @@ WORKDIR /app
 # Copy the rest of the application code
 COPY . .
 
-# TODO 4: Change to the Django project directory and run migrations
-# Hint: Use WORKDIR to change directory, then RUN to migrate
+# TODO 4: Change to the Django project directory
+# Hint: Use WORKDIR to change directory
 # The manage.py file is in the core/ subdirectory
+
+
+# TODO 5: Copy the entrypoint script and make it executable
+# The entrypoint script will run migrations at startup (needed for Docker Compose with PostgreSQL later)
+# Create a file called entrypoint.sh with:
+#   #!/bin/sh
+#   set -e
+#   uv run python manage.py migrate
+#   exec uv run python manage.py runserver 0.0.0.0:8000
+# Hint: COPY the script to /entrypoint.sh and use RUN chmod +x to make it executable
 
 
 # Expose port 8000 (documentation for humans, doesn't actually publish the port)
 EXPOSE 8000
 
-# TODO 5: Set the startup command
-# The Django dev server needs to listen on 0.0.0.0 to be accessible from outside the container
-# Hint: CMD ["executable", "arg1", "arg2", ...]
-# Command: uv run python manage.py runserver 0.0.0.0:8000
+# TODO 6: Use the entrypoint script as the container's entrypoint
+# The entrypoint runs migrations then starts the Django server
+# Hint: ENTRYPOINT ["/path/to/script"]
 
 ```
 
@@ -332,23 +341,43 @@ RUN uv sync --frozen
 </details>
 
 <details>
-<summary>Hint for TODO 4 (Change directory and migrate)</summary>
+<summary>Hint for TODO 4 (Change directory)</summary>
 
 ```dockerfile
 WORKDIR /app/core
-RUN uv run python manage.py migrate
 ```
 
 </details>
 
 <details>
-<summary>Hint for TODO 5 (Startup command)</summary>
+<summary>Hint for TODO 5 (Entrypoint script)</summary>
 
+First, create `backend/entrypoint.sh`:
+```bash
+#!/bin/sh
+set -e
+uv run python manage.py migrate
+exec uv run python manage.py runserver 0.0.0.0:8000
+```
+
+Then in the Dockerfile:
 ```dockerfile
-CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ```
 
 Note: We use `0.0.0.0` instead of `localhost` because the container needs to accept connections from outside (your host machine).
+
+</details>
+
+<details>
+<summary>Hint for TODO 6 (Use entrypoint)</summary>
+
+```dockerfile
+ENTRYPOINT ["/entrypoint.sh"]
+```
+
+The entrypoint script runs migrations at startup, which is needed when using Docker Compose with a database container (like PostgreSQL).
 
 </details>
 
