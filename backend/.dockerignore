@@ -9,8 +9,15 @@ __pycache__/
 .venv/
 venv/
 
-# Database (we don't want to include our local db)
-*.sqlite3
+.env
+.env.*
+!.env.example
+
+dist/
+build/
+.next/
+out/
+
 
 # Git
 .git/
