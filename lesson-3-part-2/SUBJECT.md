@@ -92,7 +92,7 @@ Open http://localhost:8000/api/products/ to verify it works.
 
 **Useful commands:**
 ```bash
-# Run in detached mode (background)
+# Run in detached mode background
 docker compose up -d backend
 
 # View logs
