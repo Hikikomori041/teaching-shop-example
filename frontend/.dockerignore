@@ -1,0 +1,46 @@
+# Dependencies (will be reinstalled in the container)
+
+node_modules/
+
+# Build outputs (regenerated during build)
+
+dist/
+build/
+.next/
+out/
+
+# Environment & secrets
+
+.env
+.env.*
+!.env.example
+
+# Logs
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Version control
+
+.git/
+.gitignore
+
+# OS / editor junk
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker files (not needed inside image)
+
+Dockerfile
+docker-compose.yml
+
+# Tests & docs (optional)
+
+# tests/
+# docs/
+
