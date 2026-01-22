@@ -1,0 +1,43 @@
+name: Deploy to Server
+
+on:
+  workflow_dispatch:  # Déclenchement manuel
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER
+          script: |
+            # Naviguer vers le dossier de l'application
+            cd /app/boutique-couture || exit 1
+            
+            # Authentification à GHCR
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            
+            # Pull les dernières images
+            docker compose -f docker-compose.prod.yml pull
+            
+            # Redémarrer les services
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            
+            # Nettoyer les anciennes images
+            docker image prune -f
