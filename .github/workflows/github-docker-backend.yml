@@ -6,24 +6,19 @@ on:
     branches:
       - feature/docker-compose-erwan
       
-      
 jobs:
   build-docker-backend:
     runs-on: ubuntu-latest
     
     steps:
-        - name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
-        - name: Cd Backend
-            run: cd backend
-        
-        - name: Build Image Backend
-            run: docker build -t boutique-backend .
-        
-        - name: Cd Frontend
-	    run: ../frontend
-	
-        - name: Build Image Frontend      
-	    run: docker build -t boutique-frontend .  
-      
+      - name: Build Image Backend
+        working-directory: ./backend
+        run: docker build -t boutique-backend .
+
+      - name: Build Image Frontend
+        working-directory: ./frontend
+        run: docker build -t boutique-frontend .
+
