@@ -86,6 +86,6 @@ This runs frontend on http://localhost:8080 and backend on http://localhost:8000
 
 - [Backend Deployment Guide](./backend/README.md) - Detailed instructions for deploying the backend and frontend to a VM
 
-## License
+### License
 
 This project is intended for educational purposes. 
