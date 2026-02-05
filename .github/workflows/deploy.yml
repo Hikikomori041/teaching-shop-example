@@ -51,11 +51,14 @@ jobs:
             # Authentification à GHCR
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
             
+            # Définir l'ALLOWED_HOSTS via un fichier .env
+            echo "PUBLIC_HOST=$PUBLIC_HOST" > .env
+            
             # Pull les dernières images
-            docker compose -f docker-compose.prod.yml pull
+            docker compose --env-file .env -f docker-compose.prod.yml pull
             
             # Redémarrer les services
-            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker compose --env-file .env -f docker-compose.prod.yml up -d --remove-orphans
             
             # Nettoyer les anciennes images
             docker image prune -f
