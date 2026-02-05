@@ -53,6 +53,8 @@ jobs:
             
             # Définir l'ALLOWED_HOSTS via un fichier .env
             echo "PUBLIC_HOST=$PUBLIC_HOST" > .env
+            REPO_OWNER_LOWER=$(echo "$REPO_OWNER" | tr '[:upper:]' '[:lower:]')
+            echo "REPO_OWNER=$REPO_OWNER_LOWER" >> .env
             
             # Pull les dernières images
             docker compose --env-file .env -f docker-compose.prod.yml pull
