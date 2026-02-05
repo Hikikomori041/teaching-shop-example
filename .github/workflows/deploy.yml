@@ -4,9 +4,6 @@ on:
   workflow_dispatch:  # Déclenchement manuel
   push:
     branches: [main, docker/build-deploy-nicolas]
-    paths:
-      - 'backend/**'
-      - 'frontend/**'
 
 jobs:
   deploy:
