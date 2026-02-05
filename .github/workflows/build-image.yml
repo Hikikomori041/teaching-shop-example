@@ -47,4 +47,7 @@ jobs:
         with:
           context: ./frontend
           push: true
+          build-args: |
+            VITE_API_BASE=http://${{ secrets.SSH_HOST }}:5000/api
+            VITE_ADMIN_BASE=http://${{ secrets.SSH_HOST }}:5000/admin/
           tags: ghcr.io/${{ env.REPO_OWNER_LOWER }}/boutique-frontend:latest
