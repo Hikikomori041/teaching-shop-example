@@ -38,11 +38,12 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_USER: ${{ github.actor }}
           REPO_OWNER: ${{ github.repository_owner }}
+          PUBLIC_HOST: ${{ secrets.SSH_HOST }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER
+          envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER,PUBLIC_HOST
           script: |
             # Naviguer vers le dossier de l'application
             cd /app/boutique-couture || exit 1
