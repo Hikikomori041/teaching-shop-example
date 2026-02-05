@@ -37,13 +37,13 @@ jobs:
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_USER: ${{ github.actor }}
-          REPO_OWNER: ${{ github.repository_owner }}
+          GHCR_OWNER: ${{ secrets.GHCR_OWNER }}
           PUBLIC_HOST: ${{ secrets.SSH_HOST }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER,PUBLIC_HOST
+          envs: GHCR_TOKEN,GHCR_USER,GHCR_OWNER,PUBLIC_HOST
           script: |
             # Naviguer vers le dossier de l'application
             cd /app/boutique-couture || exit 1
@@ -53,8 +53,8 @@ jobs:
             
             # Définir l'ALLOWED_HOSTS via un fichier .env
             echo "PUBLIC_HOST=$PUBLIC_HOST" > .env
-            REPO_OWNER_LOWER=$(echo "$REPO_OWNER" | tr '[:upper:]' '[:lower:]')
-            echo "REPO_OWNER=$REPO_OWNER_LOWER" >> .env
+            GHCR_OWNER_LOWER=$(echo "$GHCR_OWNER" | tr '[:upper:]' '[:lower:]')
+            echo "REPO_OWNER=$GHCR_OWNER_LOWER" >> .env
             
             # Pull les dernières images
             docker compose --env-file .env -f docker-compose.prod.yml pull
