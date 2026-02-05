@@ -40,6 +40,8 @@ jobs:
         with:
           context: ./backend
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: ghcr.io/${{ env.REPO_OWNER_LOWER }}/boutique-backend:latest
 
       - name: Build and push frontend image
@@ -50,4 +52,6 @@ jobs:
           build-args: |
             VITE_API_BASE=http://${{ secrets.SSH_HOST }}:5000/api
             VITE_ADMIN_BASE=http://${{ secrets.SSH_HOST }}:5000/admin/
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: ghcr.io/${{ env.REPO_OWNER_LOWER }}/boutique-frontend:latest
