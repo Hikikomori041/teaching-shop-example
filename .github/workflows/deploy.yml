@@ -3,10 +3,7 @@ name: Deploy to Server
 on:
   workflow_dispatch:  # Déclenchement manuel
   push:
-    branches: [main]
-    paths:
-      - 'backend/**'
-      - 'frontend/**'
+    branches: [main, docker/build-deploy-nicolas]
 
 jobs:
   deploy:
@@ -15,17 +12,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Create directory and copy docker-compose.prod.yml
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Créer le dossier s'il n'existe pas
+            sudo mkdir -p /app/boutique-couture
+            sudo chown $USER:$USER /app/boutique-couture
+
+      - name: Copy docker-compose.prod.yml to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "/app/boutique-couture/"
+
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1.0.0
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_USER: ${{ github.actor }}
-          REPO_OWNER: ${{ github.repository_owner }}
+          GHCR_OWNER: ${{ secrets.GHCR_OWNER }}
+          PUBLIC_HOST: ${{ secrets.SSH_HOST }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER
+          envs: GHCR_TOKEN,GHCR_USER,GHCR_OWNER,PUBLIC_HOST
           script: |
             # Naviguer vers le dossier de l'application
             cd /app/boutique-couture || exit 1
@@ -33,11 +51,16 @@ jobs:
             # Authentification à GHCR
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
             
+            # Définir l'ALLOWED_HOSTS via un fichier .env
+            echo "PUBLIC_HOST=$PUBLIC_HOST" > .env
+            GHCR_OWNER_LOWER=$(echo "$GHCR_OWNER" | tr '[:upper:]' '[:lower:]')
+            echo "REPO_OWNER=$GHCR_OWNER_LOWER" >> .env
+            
             # Pull les dernières images
-            docker compose -f docker-compose.prod.yml pull
+            docker compose --env-file .env -f docker-compose.prod.yml pull
             
             # Redémarrer les services
-            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker compose --env-file .env -f docker-compose.prod.yml up -d --remove-orphans --force-recreate
             
             # Nettoyer les anciennes images
             docker image prune -f

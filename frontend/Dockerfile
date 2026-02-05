@@ -15,6 +15,10 @@ RUN npm ci
 # Copy source code and build the app
 # Hint: The build command is "npm run build"
 COPY . .
+ARG VITE_API_BASE
+ARG VITE_ADMIN_BASE
+ENV VITE_API_BASE=$VITE_API_BASE
+ENV VITE_ADMIN_BASE=$VITE_ADMIN_BASE
 RUN npm run build
 
 

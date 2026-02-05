@@ -14,22 +14,23 @@ services:
       retries: 5
 
   backend:
-    image: ghcr.io/${REPO_OWNER:-thomasbouillon}/boutique-backend:latest
+    image: ghcr.io/${REPO_OWNER:-hikikomori041}/boutique-backend:latest
     ports:
-      - "8000:8000"
+      - "5000:8000"
     environment:
       - DATABASE_HOST=db
       - DATABASE_NAME=boutique
       - DATABASE_USER=boutique
       - DATABASE_PASSWORD=boutique
+      - ALLOWED_HOSTS=${PUBLIC_HOST},localhost,127.0.0.1
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
-    image: ghcr.io/${REPO_OWNER:-thomasbouillon}/boutique-frontend:latest
+    image: ghcr.io/${REPO_OWNER:-hikikomori041}/boutique-frontend:latest
     ports:
-      - "8080:80"
+      - "80:80"
 
 volumes:
   db-data:
