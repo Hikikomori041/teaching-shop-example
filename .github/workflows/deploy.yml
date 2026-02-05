@@ -12,6 +12,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Create directory and copy docker-compose.prod.yml
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Créer le dossier s'il n'existe pas
+            sudo mkdir -p /app/boutique-couture
+            sudo chown $USER:$USER /app/boutique-couture
+
       - name: Copy docker-compose.prod.yml to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -33,9 +44,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: GHCR_TOKEN,GHCR_USER,REPO_OWNER
           script: |
-            # Créer le dossier s'il n'existe pas
-            mkdir -p /app/boutique-couture
-            
             # Naviguer vers le dossier de l'application
             cd /app/boutique-couture || exit 1
             
